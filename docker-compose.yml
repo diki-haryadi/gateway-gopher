@@ -1,0 +1,67 @@
+version: '3.8'
+
+services:
+  gateway:
+    build:
+      context: .
+      args:
+        SSH_HOST: "ssh-server"
+        SSH_USER: "root"
+        SSH_PORT: "22"
+        SSH_PASSWORD: "toor"
+        DB_HOST: "postgres"
+        DB_PORT: "5432"
+        LOCAL_PORT: "5432"
+    container_name: gateway
+    ports:
+      - "5432:5432"
+    networks:
+      - internal_network
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: internal+user
+      POSTGRES_PASSWORD: internal+password
+      POSTGRES_DB: postgres
+    networks:
+      - internal_network
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: toor
+      MYSQL_DATABASE: internal+db
+      MYSQL_USER: internal+user
+      MYSQL_PASSWORD: internal+password
+    networks:
+      - internal_network
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  ssh-server:
+    image: linuxserver/openssh-server
+    environment:
+      PASSWORD_ACCESS: "true"
+      USER_NAME: root
+      USER_PASSWORD: toor
+    ports:
+      - "2222:2222"
+    volumes:
+      - ssh_data:/config
+    networks:
+      - internal_network
+    depends_on:
+      - postgres
+      - mysql
+
+networks:
+  internal_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  mysql_data:
+  ssh_data:
