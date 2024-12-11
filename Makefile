@@ -1,5 +1,5 @@
 build:
-	go build -o db-tunnel-dialer
+	go build -o gateway-gopher
 
 run-cobra-key-pg:
 	go run main.go gw \
