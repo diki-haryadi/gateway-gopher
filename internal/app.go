@@ -193,22 +193,6 @@ func (g *Gateway) handleConnection(local net.Conn) {
 }
 
 func App(gateway *Gateway) {
-
-	// Parse command line flags
-	//flag.StringVar(&gateway.SSHHost, "ssh-host", "jump-server.example.com", "SSH jump server hostname")
-	//flag.IntVar(&gateway.SSHPort, "ssh-port", 22, "SSH port")
-	//flag.StringVar(&gateway.SSHUser, "ssh-user", "username", "SSH username")
-	//flag.StringVar(&gateway.SSHPassword, "ssh-password", "password", "SSH password")
-	//flag.StringVar(&gateway.SSHKeyPath, "ssh-key", "~/.ssh/id_rsa", "Path to SSH private key")
-	//
-	//flag.StringVar(&gateway.DBHost, "db-host", "private-db.internal", "Target example hostname")
-	//flag.IntVar(&gateway.DBPort, "db-port", 5432, "Target example port")
-	//
-	//flag.StringVar(&gateway.LocalHost, "local-host", "127.0.0.1", "Local binding address")
-	//flag.IntVar(&gateway.LocalPort, "local-port", 5432, "Local binding port")
-	//
-	//flag.Parse()
-
 	// Expand home directory in key path
 	if gateway.SSHAuthType == "key" {
 		if gateway.SSHKeyPath[:2] == "~/" {
